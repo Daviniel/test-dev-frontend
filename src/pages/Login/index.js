@@ -1,15 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
+import { Navigate } from 'react-router-dom';
 
 export default function Login() {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState('');
     const minPwdLength = 5;
 
-    let REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     const handleSubmit = e => {
         e.preventDefault();
+        setIsLoggedIn(true);
     };
+
+    if (isLoggedIn) return <Navigate to="/carteira" />;
 
     return (
         <div className='container'>
@@ -35,7 +40,7 @@ export default function Login() {
                 />
                 <button
                     type="submit"
-                    disabled={!REGEX_EMAIL.test(email) || password.length <= minPwdLength}
+                    disabled={!pattern.test(email) || password.length <= minPwdLength}
                 >
                     Entrar
                 </button>
