@@ -47,7 +47,7 @@ class Table extends Component {
               const currencyName = this.getCurrencyName(currency);
 
               // Verifique se o valor é um número antes de chamar toFixed
-              const formattedValue = typeof expense.value === 'number' ? expense.value.toFixed(2) : parseFloat(expense.value).toFixed(2);
+              const formattedValue = typeof value === 'number' ? value.toFixed(2) : parseFloat(value).toFixed(2);
               // Verifique se exchangeRates e exchangeRates[currency] existem antes de acessar
               const askRate = exchangeRates && exchangeRates[currency] && exchangeRates[currency].ask;
 
