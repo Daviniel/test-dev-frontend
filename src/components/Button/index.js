@@ -1,0 +1,13 @@
+import React, { Component } from 'react';
+
+export default class Button extends Component {
+  render() {
+    return (
+      <button>
+        
+      </button>
+    );
+  }
+}
+
+// Requisito 8 feito com ajuda do Tonn

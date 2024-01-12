@@ -21,6 +21,12 @@ export const sendForm = (state) => ({
     state,
 });
 
+// ---- EXCLUI A DESPESA ------
+export const buttonDelete = (state) => ({
+  type: 'BUTTON_DELETE',
+  payload: state,
+});
+
 // ----REQUISIÇÃO API----
 
 const requestApi = () => ({
