@@ -66,6 +66,21 @@ class Form extends Component {
                     >
                     </select>
                 </div>
+                <div className='form'>
+                    <label htmlFor='metgod'>
+                        Método de pagamento:
+                        <select
+                            id='method'
+                            name='method'
+                            data-testid='method-input'
+                            onChange={ this.handleChange }
+                        >
+                            <option value="money">Dinheiro</option>
+                            <option value="credit card">Cartão de crédito</option>
+                            <option value="debit card">Cartão de débito</option>
+                        </select>
+                    </label>
+                </div>
             </div>
         
         );
