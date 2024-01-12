@@ -1,14 +1,11 @@
-// store.js
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
-// import rootReducer from './reducers'; // Importe seu reducer principal aqui
+import rootReducer from '../reducers/index'; // Certifique-se de importar o rootReducer
 
-// Configuração da extensão Redux DevTools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// Criação da store com middleware redux-thunk
 const store = createStore(
-  // rootReducer,
+  rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
 

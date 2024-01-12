@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sendEmail } from '../../actions/index';
+import { loginUser as loginUserAction } from '../../actions/index';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -14,13 +14,13 @@ class Login extends Component {
     handleChange = (event) => {
         const { target } = event;
         const { value, name } = target;
-
+    
         this.setState(
             {
                 [name]: value,
             },
             () => {
-                const { email, password } = this.state
+                const { email, password } = this.state;
                 const numMin = 6;
                 if (
                     password.length >= numMin
@@ -30,19 +30,21 @@ class Login extends Component {
                 } else {
                     this.setState({ buttonIsDisabled: true });
                 }
-            },
+            }
         );
     };
 
     
-    handleClick = () => {
-        const { email } = this.state;
-        const { dispatch } = this.props;
-        dispatch(sendEmail(email));
-    }
+    // handleClick = () => {
+    //     const { email } = this.state;
+    //     const { dispatch,history } = this.props;
+    //     dispatch(sendEmail(email));
+    //     history.push('/carteira')
+    // }
     
 
     render() {
+        const { loginUser } = this.props;
         const { email, buttonIsDisabled, password } = this.state;
         return (
             <div className="login-page">
@@ -76,7 +78,7 @@ class Login extends Component {
                                 className="button-form-login"
                                 type="submit"
                                 disabled={ buttonIsDisabled }
-                                onClick={ this.handleChange }
+                                onClick={ () => loginUser(email) }
                             >
                                 Entrar
                             </button>
@@ -87,12 +89,15 @@ class Login extends Component {
         );
     }
 }
+
+const mapDispatchProps = (dispatch) => ({
+   loginUser: (email) => dispatch(loginUserAction(email)),
+});
     
 Login.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
+    loginUser: PropTypes.func.isRequired,
+
 };
 
-export default connect()(Login);
+export default connect(null, mapDispatchProps)(Login);
+export const LOGIN_USER = 'LOGIN_USER';

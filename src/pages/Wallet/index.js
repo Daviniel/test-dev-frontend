@@ -1,7 +1,14 @@
-import React from "react";
+import React from 'react';
+import Header from '../../components/header/index';
 
-export default function carteira() {
+class Wallet extends React.Component {
+  render() {
     return (
-        <h1>Hellow !</h1>
+      <div className="wallet">
+        <Header />
+      </div>
     );
+  }
 }
+
+export default Wallet;
