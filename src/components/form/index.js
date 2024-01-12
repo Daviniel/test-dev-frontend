@@ -56,6 +56,16 @@ class Form extends Component {
                         />
                     </label>
                 </div>
+                <div className='form'>
+                    Moeda:
+                    <select 
+                        id='currency'
+                        name='currency'
+                        data-testid = "currency-input"
+                        onChange={ this.handleChange }
+                    >
+                    </select>
+                </div>
             </div>
         
         );
