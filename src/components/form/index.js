@@ -12,7 +12,7 @@ class Form extends Component {
         value: 0,
         description: '',
         currency: 'USD',
-        method: 'Money',
+        method: 'Dinheiro',
         tag: Food,
         exchangeRates: '',
     };
@@ -122,7 +122,7 @@ class Form extends Component {
                             onChange={ this.handleChange }
                             value={ method }
                         >
-                            <option value="money">Dinheiro</option>
+                            <option value="Dinehiro">Dinheiro</option>
                             <option value="credit card">Cartão de crédito</option>
                             <option value="debit card">Cartão de débito</option>
                         </select>
