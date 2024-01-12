@@ -5,26 +5,54 @@ class Form extends Component {
     state = {
         id: 0,
         value: 0,
+        description: '',
     }
+
+    handleChange = (event) => {
+        const { target } = event;
+        const { value, name } = target;
+
+        this.setState({
+            [name]: value,
+        });
+    };
+
     render() {
         const {
             value,
+            description,
         } = this.state;
         return (
             <div className='container-form'>
                 <div className='form'>
                     <label htmlFor='valueExpense'>
                         {' '}
-                        Valor Despesas:
+                        Valor da Despesa:
                         <input 
                             className='input-form'
                             id='value'
-                            onChange={ '' }
+                            onChange={ this.handleChange }
                             type='number'
                             placeholder='Digite o valor desejado'
                             name='value'
                             data-testid='value-input'
                             value={ value }
+                        />
+                    </label>
+                </div>
+                {' '}
+                <div className='form'>
+                    Descrição da Despesa:
+                    <label htmlFor='description'>
+                        <input 
+                            className='input-form'
+                            id='description'
+                            onChange={ this.handleChange }
+                            type='text'
+                            name='description'
+                            data-testid='description-input'
+                            placeholder='Descrição da despesa'
+                            value= { description }
                         />
                     </label>
                 </div>
