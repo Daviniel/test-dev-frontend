@@ -1,52 +1,98 @@
-import React, {useState} from "react";
-import { Navigate } from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { sendEmail } from '../../actions/index';
+import { Link } from 'react-router-dom';
 
-export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState('');
-    const minPwdLength = 5;
+class Login extends Component {
+    state = {
+        buttonIsDisabled: true,
+        email: '',
+        password: '',
+    }
 
-    let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    handleChange = (event) => {
+        const { target } = event;
+        const { value, name } = target;
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        setIsLoggedIn(true);
+        this.setState(
+            {
+                [name]: value,
+            },
+            () => {
+                const { email, password } = this.state
+                const numMin = 6;
+                if (
+                    password.length >= numMin
+                    && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+                ) {
+                    this.setState({ buttonIsDisabled: false });
+                } else {
+                    this.setState({ buttonIsDisabled: true });
+                }
+            },
+        );
     };
 
-    if (isLoggedIn) return <Navigate to="/carteira" />;
+    
+    handleClick = () => {
+        const { email } = this.state;
+        const { dispatch } = this.props;
+        dispatch(sendEmail(email));
+    }
+    
 
-    return (
-        <div className='container'>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Email"
-                    data-testid="email-input"
-                    value={ email }
-                    onChange={ (e) => setEmail(e.target.value) }
-                />
-                <input 
-                    type="password"
-                    name="password"
-                    id="password "
-                    placeholder="Digite a sua senha"
-                    data-testid="password-input"
-                    value={ password }
-                    onChange={ (e) => setPassword(e.target.value) }
-                />
-                <button
-                    type="submit"
-                    disabled={!pattern.test(email) || password.length <= minPwdLength}
-                >
-                    Entrar
-                </button>
-            </form>
-        </div>
-
-    );
+    render() {
+        const { email, buttonIsDisabled, password } = this.state;
+        return (
+            <div className="login-page">
+                <form className="form-login">
+                    <h1>Login</h1>
+                    <div className="form-login-email-input">
+                        <input
+                            className="input100"
+                            type="text"
+                            placeholder="Digite seu e-mail"
+                            name="email"
+                            data-testid="email-input"
+                            onChange={ this.handleChange }
+                            value={ email }
+                        />
+                    </div>
+                    <label className="form-login-password-input" htmlFor='password'>
+                        <input
+                            className="input100"
+                            type="password"
+                            placeholder="Digite sua senha"
+                            name="password"
+                            data-testid="passwords-input"
+                            onChange={ this.handleChange }
+                            value={ password }
+                        />
+                    </label>
+                    <div className="form-login-button">
+                        <Link to={'/carteira'}>
+                            <button
+                                className="button-form-login"
+                                type="submit"
+                                disabled={ buttonIsDisabled }
+                                onClick={ this.handleChange }
+                            >
+                                Entrar
+                            </button>
+                        </Link>
+                    </div>
+                </form>
+            </div>
+        );
+    }
 }
+    
+Login.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+};
 
+export default connect()(Login);

@@ -1,15 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import Routers from './routes';
-
+import { Route, Routes } from 'react-router-dom';
+import Login from './pages/Login/index';
+import Wallet from './pages/Wallet/index';
 
 function App() {
-  return ( 
-    <BrowserRouter>
-      <Routers />
-    </ BrowserRouter>
-
+  return (
+    <Routes>
+      <Route exact path="/" element={ <Login /> } />
+      <Route path='/carteira' element={ <Wallet /> }/>
+    </Routes>
   );
 }
 
