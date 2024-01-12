@@ -33,9 +33,13 @@ class Form extends Component {
 
     handleClick = async () => {
         const { fillEexchange } = this.props;
-        this.setState({ exchangeRates: await apiCoins() }, () => {
-            fillEexchange(this.state);
-            this.setState((state) => ({
+      
+        try {
+          const exchangeRates = await apiCoins();
+          if (exchangeRates) {
+            this.setState({ exchangeRates }, () => {
+              fillEexchange(this.state);
+              this.setState((state) => ({
                 id: state.id + 1,
                 value: 0,
                 description: '',
@@ -43,10 +47,16 @@ class Form extends Component {
                 method: 'Dinheiro',
                 tag: Food,
                 exchangeRates: '',
-            }));
-        });
+              }));
+            });
+          } else {
+            console.error('Erro ao obter taxas de câmbio.');
+          }
+        } catch (error) {
+          console.error('Erro na requisição de taxas de câmbio:', error);
+        }
     };
-
+    
     render() {
 
         const {
@@ -122,7 +132,7 @@ class Form extends Component {
                             onChange={ this.handleChange }
                             value={ method }
                         >
-                            <option value="Dinehiro">Dinheiro</option>
+                            <option value="Dinheiro">Dinheiro</option>
                             <option value="credit card">Cartão de crédito</option>
                             <option value="debit card">Cartão de débito</option>
                         </select>

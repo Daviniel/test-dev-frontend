@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 class Table extends Component {
   getCurrencyName = (currencyCode) => {
-    // Adicione um mapeamento de códigos de moeda para nomes completos
     const currencyNames = {
       USD: 'Dólar Comercial',
       EUR: 'Euro',
@@ -34,18 +33,42 @@ class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense) => (
-              <tr key={expense.id}>
-                <td>{expense.description}</td>
-                <td>{expense.tag}</td>
-                <td>{expense.method}</td>
-                <td>{expense.value}</td>
-                <td>{this.getCurrencyName(expense.currency)}</td>
-                <td>{expense.exchangeRates[expense.currency].ask}</td>
-                <td>{(expense.value * expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
-                <td>Real</td> {/* Sempre define a Moeda de Conversão como "Real" */}
-              </tr>
-            ))}
+            {expenses.map((expense) => {
+              const {
+                id,
+                description,
+                tag,
+                method,
+                value,
+                currency,
+                exchangeRates
+              } = expense;
+
+              const currencyName = this.getCurrencyName(currency);
+
+              // Verifique se o valor é um número antes de chamar toFixed
+              const formattedValue = typeof expense.value === 'number' ? expense.value.toFixed(2) : parseFloat(expense.value).toFixed(2);
+              // Verifique se exchangeRates e exchangeRates[currency] existem antes de acessar
+              const askRate = exchangeRates && exchangeRates[currency] && exchangeRates[currency].ask;
+
+              // Verifique se askRate é um número antes de chamar toFixed
+              const formattedAskRate = typeof askRate === 'number' ? askRate.toFixed(2) : 'Câmbio Inválido';
+
+              const convertedValue = askRate ? (value * askRate).toFixed(2) : 'Valor Convertido Inválido';
+
+              return (
+                <tr key={id}>
+                  <td>{description}</td>
+                  <td>{tag}</td>
+                  <td>{method}</td>
+                  <td>{formattedValue}</td>
+                  <td>{currencyName}</td>
+                  <td>{formattedAskRate}</td>
+                  <td>{convertedValue}</td>
+                  <td>Real</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
