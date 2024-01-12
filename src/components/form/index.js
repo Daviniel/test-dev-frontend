@@ -81,6 +81,28 @@ class Form extends Component {
                         </select>
                     </label>
                 </div>
+                <div className='form'>
+                    <label  htmlFor='tag'>
+                        Tipo da despesa:
+                        <select
+                            id='tag'
+                            name='tag'
+                            data-testid='tag-input'
+                            onChange={ this.handleChange }
+                        >
+                            <option value='Food'>Alimentação</option>
+                            <option value='Leisure'>Lazer</option>
+                            <option value='Work'>Trabalho</option>
+                            <option value='Transport'>Transporte</option>
+                            <option value='Health'>Saúde</option>
+                        </select>
+                    </label>
+                </div>
+                <div className='button-div'>
+                    <button className='button-ad' onClick={ '' } type='submit'>
+                        Adicionar Despesas
+                    </button>
+                </div>
             </div>
         
         );
