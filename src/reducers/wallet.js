@@ -1,4 +1,8 @@
-import { SEND_FORM } from '../actions/index';
+import {
+  SEND_FORM,
+  REQUEST_API,
+  GET_COINS,
+} from '../actions/index'
 
 const INITIAL_STATE = {
   currencies: [],
@@ -14,6 +18,12 @@ const wallet = (state = INITIAL_STATE, action) => {
         ...state,
         expenses: [...state.expenses, action.state],
       };
+    case REQUEST_API:
+      return { ...state, isLoading: true} ;
+    case GET_COINS:
+      return { ...state,
+        currencies: action.payload,
+      isLoading: false };
     // ... outros casos aqui ...
 
     default:
