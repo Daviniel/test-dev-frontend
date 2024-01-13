@@ -5,5 +5,4 @@ const apiCoins = async () => {
 };
   
 export default apiCoins;
-// fazer uma action, enviar o id ao reducer e fazer um filter !==
   

@@ -1,47 +1,57 @@
 import {
-  SEND_FORM,
-  GET_COINS,
-  REQUEST_API,
-  FAILED_COINS,
-  BUTTON_DELETE,
-} from '../actions/index';
+  EDIT_EXPENSE,
+  SAVE_COINS,
+  SAVE_CURRENCIES,
+  SAVE_NEW_EXPENSES,
+  EXPENSE_EDITED,
+} from '../actions';
 
-const INITIAL_STATE = {
+const initialState = {
   currencies: [],
   expenses: [],
-  isLoading: false,
-  error: '',
 };
 
-const wallet = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case SEND_FORM:
-      return {
-        ...state,
-        expenses: [...state.expenses, action.state],
-      };
-    case REQUEST_API:
-      return { ...state, isLoading: true };
-    case GET_COINS:
-      return {
-        ...state,
-        currencies: action.payload,
-        isLoading: false,
-      };
-    case FAILED_COINS:
-      return {
-        ...state,
-        error: action.payload,
-        isLoading: false,
-      };
-    case BUTTON_DELETE:
-      return {
-        ...state,
-        expenses: state.expenses.filter(({ id }) => id !== +action.payload),
-      };
-
-    default:
-      return state;
+const wallet = (state = initialState, { type, payload }) => {
+  switch (type) {
+  case SAVE_CURRENCIES:
+    delete payload.USDT;
+    return {
+      ...state,
+      currencies: Object.keys(payload),
+    };
+  case SAVE_COINS:
+    return {
+      ...state,
+      expenses: [...state.expenses, payload],
+      isEdit: false,
+    };
+  case SAVE_NEW_EXPENSES:
+    return {
+      ...state,
+      expenses: state.expenses.filter(
+        ({ id }) => Number(id) !== Number(payload),
+      ),
+    };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      editExpense: payload,
+      idExpense: payload.id,
+      isEdit: true,
+    };
+  case EXPENSE_EDITED:
+    return {
+      ...state,
+      isEdit: false,
+      expenses: state.expenses.map((obj) => {
+        if (obj.id === payload.id) {
+          return { ...obj, ...payload };
+        }
+        return obj;
+      }),
+    };
+  default:
+    return state;
   }
 };
 

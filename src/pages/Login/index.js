@@ -34,15 +34,6 @@ class Login extends Component {
         );
     };
 
-    
-    // handleClick = () => {
-    //     const { email } = this.state;
-    //     const { dispatch,history } = this.props;
-    //     dispatch(sendEmail(email));
-    //     history.push('/carteira')
-    // }
-    
-
     render() {
         const { loginUser } = this.props;
         const { email, buttonIsDisabled, password } = this.state;

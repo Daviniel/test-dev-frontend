@@ -1,11 +1,10 @@
 export const LOGIN_USER = 'LOGIN_USER';
-export const SEND_FORM = 'SEND_FORM';
-export const REQUEST_API = 'REQUEST_API';
-export const GET_COINS = 'GET_COINS';
-export const FAILED_COINS = 'FAILED_COINS';
-export const BUTTON_DELETE = 'BUTTON_DELETE';
-const API = 'https://economia.awesomeapi.com.br/json/all';
-
+export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
+export const SAVE_INFOS = 'SAVE_INFOS';
+export const SAVE_COINS = 'SAVE_COINS';
+export const SAVE_NEW_EXPENSES = ' SAVE_NEW_EXPENSES';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const EXPENSE_EDITED = 'EXPENSE_EDITED';
 
 // --- ENVIA E-MAIL AO HEADER---
 
@@ -16,40 +15,39 @@ export const loginUser = (email) => {
     };
 };
 
-// ---- EXCLUI A DESPESA ------
-export const buttonDelete = (id) => ({
-  type: BUTTON_DELETE,
-  payload: id,
+export const saveCurrencies = (payload) => ({
+  type: SAVE_CURRENCIES,
+  payload,
 });
 
-// ---ATUALIZA AS DESPESAS NO ESTADO GLOBAL---
-export const sendForm = (state, editMode = false) => ({
-  type: SEND_FORM,
-  state,
-  editMode,
+export const saveInfos = (payload) => ({
+  type: SAVE_INFOS,
+  payload,
 });
 
-// ---- REQUISIÇÃO API ----
-const requestApi = () => ({
-  type: REQUEST_API,
+export const saveCoins = (payload) => ({
+  type: SAVE_COINS,
+  payload,
 });
 
-const getCoins = (json) => ({
-  type: GET_COINS,
-  payload: Object.keys(json),
+export const saveNewExpenses = (payload) => ({
+  type: SAVE_NEW_EXPENSES,
+  payload,
 });
 
-const failedRequest = (error) => ({
-  type: FAILED_COINS,
-  payload: error,
+export const editExpense = (payload) => ({
+  type: EDIT_EXPENSE,
+  payload,
+  // id,
 });
 
-export function fetchCoin() {
-  return (dispatch) => {
-    dispatch(requestApi());
-    return fetch(API)
-      .then((response) => response.json())
-      .then((json) => dispatch(getCoins(json)))
-      .catch((error) => dispatch(failedRequest(error)));
-  };
-}
+export const expenseEdited = (payload) => ({
+  type: EXPENSE_EDITED,
+  payload,
+});
+
+export const requestAPI = () => async (dispatch) => {
+  const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+  const data = await response.json(); // falta testes
+  return dispatch(saveCurrencies(data)); // falta testes
+};

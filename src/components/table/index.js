@@ -1,91 +1,81 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Button from '../Button/index';
-import { buttonDelete } from '../../actions/index';
+import { editExpense, saveNewExpenses } from '../../actions/index';
+
 
 class Table extends Component {
-  handleClick = ({ target: { id } }) => {
-
-    const { dispatch } = this.props;
-
-    dispatch(buttonDelete(id));
+  handleClick = (id) => {
+    const { dispatch } = this.props; 
+    dispatch(saveNewExpenses(id));
   };
 
+  handleEdit = (curr) => {
+    const { dispatch } = this.props;
+    dispatch(editExpense(curr, curr.id));
+  };
   render() {
     const { expenses } = this.props;
 
     return (
-      <div className="background-wallet">
-        <table border="1" width="100%">
-            <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Tag</th>
-                    <th>Método de pagamento</th>
-                    <th>Valor</th>
-                    <th>Moeda</th>
-                    <th>Câmbio utilizado</th>
-                    <th>Valor convertido</th>
-                    <th>Moeda de conversão</th>
-                    <th>Editar/Excluir</th>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody className='table__body'>
+            {expenses.map((curr) => {
+              const currencies = Object.entries(curr.exchangeRates)
+                .find((value) => value[0] === curr.currency);
+              const ask = Number(currencies[1].ask);
+              const nameCurrency = currencies[1].name;
+              const sumTotal = ask * Number(curr.value);
+              const value = Number(curr.value);
+              return (
+                <tr key={curr.id}>
+                  <td>{curr.description}</td>
+                  <td>{curr.tag}</td>
+                  <td>{curr.method}</td>
+                  <td><strong>{value.toFixed(2)}</strong></td>
+                  <td>{nameCurrency}</td>
+                  <td>{ask.toFixed(2)}</td>
+                  <td>{sumTotal.toFixed(2)}</td>
+                  <td>
+                    <button
+                      data-testid="edit-btn"
+                      onClick={() => this.handleEdit(curr)}
+                    >
+                    </button>
+                    <button
+                      data-testid="delete-btn"
+                      onClick={() => this.handleClick(curr.id)}
+                    >
+                    </button>
+                  </td>
                 </tr>
-            </thead>
-            <tbody>
-                {expenses.map((element) => (
-                <tr key={ element.id }>
-                    <td>{element.description}</td>
-                    <td>{element.tag}</td>
-                    <td>{element.method}</td>
-                    <td>{(+element.value).toFixed(2)}</td>
-                    <td>
-                    {element.exchangeRates[element.currency].name.split('/')[0]}
-                    </td>
-                    <td>
-                    {(+element.exchangeRates[element.currency].ask).toFixed(2)}
-                    </td>
-                    <td>
-                    {(
-                        +element.value
-                        * element.exchangeRates[element.currency].ask
-                    ).toFixed(2)}
-                    </td>
-                        <td>Real</td>
-                        <td>
-                            <Button
-                                label="Excluir"
-                                name="excluir"
-                                dataTestId="delete-btn"
-                                handleClick={ this.handleClick }
-                                id={ element.id }
-                            />
-                        </td>
-                    </tr>
-                    ))}
-                </tbody>
+              );
+            })}
+          </tbody>
         </table>
-      </div>
-    );
+    )
   }
 }
 
 Table.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    expenses: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
-        tag: PropTypes.string.isRequired,
-        method: PropTypes.string.isRequired,
-        value: PropTypes.number.isRequired,
-        currency: PropTypes.string.isRequired,
-        exchangeRates: PropTypes.object.isRequired,
-      })
-    ).isRequired,
-};
+  expenses: PropTypes.arrayOf({}),
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Table);
+
