@@ -56,7 +56,7 @@ class Form extends Component {
           console.error('Erro na requisição de taxas de câmbio:', error);
         }
     };
-    
+
     render() {
 
         const {
@@ -179,7 +179,7 @@ const mapDispatchToProps = (dispatch) => ({
 Form.propTypes = {
     currencies: PropTypes.func.isRequired,
     fillEexchange: PropTypes.func.isRequired,
-    currencyList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currencyList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

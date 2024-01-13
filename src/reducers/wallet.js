@@ -1,8 +1,10 @@
 import {
   SEND_FORM,
-  REQUEST_API,
   GET_COINS,
-} from '../actions/index'
+  REQUEST_API,
+  FAILED_COINS,
+  BUTTON_DELETE,
+} from '../actions/index';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -19,12 +21,24 @@ const wallet = (state = INITIAL_STATE, action) => {
         expenses: [...state.expenses, action.state],
       };
     case REQUEST_API:
-      return { ...state, isLoading: true} ;
+      return { ...state, isLoading: true };
     case GET_COINS:
-      return { ...state,
+      return {
+        ...state,
         currencies: action.payload,
-      isLoading: false };
-    // ... outros casos aqui ...
+        isLoading: false,
+      };
+    case FAILED_COINS:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+    case BUTTON_DELETE:
+      return {
+        ...state,
+        expenses: state.expenses.filter(({ id }) => id !== +action.payload),
+      };
 
     default:
       return state;
