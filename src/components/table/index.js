@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editExpense, saveNewExpenses } from '../../actions/index';
+import { Container } from './styles';
 
 
 class Table extends Component {
@@ -18,6 +19,7 @@ class Table extends Component {
     const { expenses } = this.props;
 
     return (
+      <Container>
         <table>
           <thead>
             <tr>
@@ -65,6 +67,7 @@ class Table extends Component {
             })}
           </tbody>
         </table>
+      </Container>
     )
   }
 }
