@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { loginUser as loginUserAction } from '../../actions/index';
 import { Link } from 'react-router-dom';
 
+import { Container } from './styles';
+
 class Login extends Component {
     state = {
         buttonIsDisabled: true,
@@ -38,45 +40,50 @@ class Login extends Component {
         const { loginUser } = this.props;
         const { email, buttonIsDisabled, password } = this.state;
         return (
-            <div className="login-page">
-                <form className="form-login">
-                    <h1>Login</h1>
-                    <div className="form-login-email-input">
-                        <input
-                            className="input100"
-                            type="text"
-                            placeholder="Digite seu e-mail"
-                            name="email"
-                            data-testid="email-input"
-                            onChange={ this.handleChange }
-                            value={ email }
-                        />
-                    </div>
-                    <label className="form-login-password-input" htmlFor='password'>
-                        <input
-                            className="input100"
-                            type="password"
-                            placeholder="Digite sua senha"
-                            name="password"
-                            data-testid="passwords-input"
-                            onChange={ this.handleChange }
-                            value={ password }
-                        />
-                    </label>
-                    <div className="form-login-button">
-                        <Link to={'/carteira'}>
-                            <button
-                                className="button-form-login"
-                                type="submit"
-                                disabled={ buttonIsDisabled }
-                                onClick={ () => loginUser(email) }
-                            >
-                                Entrar
-                            </button>
-                        </Link>
-                    </div>
-                </form>
-            </div>
+            <Container>          
+                <div className="login-page">
+                    <form className="form-login">
+                        <h1>Login</h1>
+                        <div className="form-login-input">
+                            <input
+                                type="text"
+                                placeholder="Digite seu e-mail"
+                                name="email"
+                                data-testid="email-input"
+                                onChange={ this.handleChange }
+                                value={ email }
+                            />
+                        </div>
+                        <label className="form-login-input" htmlFor='password'>
+                            <input
+                                type="password"
+                                placeholder="Digite sua senha"
+                                name="password"
+                                data-testid="passwords-input"
+                                onChange={ this.handleChange }
+                                value={ password }
+                            />
+                        </label>
+                        <div className="button-form-login">
+                            <Link to={'/carteira'}>
+                                <button
+                                    className="button-form-login"
+                                    type="submit"
+                                    disabled={ buttonIsDisabled }
+                                    onClick={ () => loginUser(email) }
+                                    style={{
+                                        opacity: buttonIsDisabled ? 0.5 : 1,
+                                        boxShadow: buttonIsDisabled ? 'none' : '0 10px 40px -12px #fff',
+                                        cursor: buttonIsDisabled ? '' : 'pointer',
+                                    }}
+                                >
+                                    Entrar
+                                </button>
+                            </Link>
+                        </div>
+                    </form>
+                </div>
+            </Container>
         );
     }
 }
