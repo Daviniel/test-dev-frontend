@@ -5,6 +5,10 @@ Neste projeto foi desenvolvido uma carteira de controle de gastos com conversor 
     Visualizar uma tabelas com seus gastos;
     Visualizar o total de gastos convertidos para uma moeda de escolha;
 
+![login](https://github.com/Daviniel/test-dev-frontend/assets/92042304/ae5b07d2-8275-404b-8ac8-d2514b0b2532)
+![wallet](https://github.com/Daviniel/test-dev-frontend/assets/92042304/27ed3f9c-1836-4bae-a293-48b83da86dba)
+
+
 ## Técnologias usadas
 
 Front-end:
